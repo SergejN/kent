@@ -296,7 +296,7 @@ return faReadSeq(fileName, FALSE);
 static unsigned faFastBufSize = 0;
 static DNA *faFastBuf;
 
-static void expandFaFastBuf(int bufPos, int minExp)
+static void expandFaFastBuf(size_t bufPos, size_t minExp)
 /* Make faFastBuf bigger. */
 {
 if (faFastBufSize == 0)
@@ -309,14 +309,14 @@ if (faFastBufSize == 0)
 else
     {
     DNA *newBuf;
-    unsigned newBufSize = faFastBufSize + faFastBufSize;
+    size_t newBufSize = 2 * faFastBufSize;
     while (newBufSize < minExp)
 	{
         newBufSize <<= 1;
-	if (newBufSize <= 0)
-	    errAbort("expandFaFastBuf: integer overflow when trying to "
-		     "increase buffer size from %u to a min of %u.",
-		     faFastBufSize, minExp);
+	    if (newBufSize <= 0)
+	        errAbort("expandFaFastBuf: integer overflow when trying to "
+		        "increase buffer size from %u to a min of %u.",
+		        faFastBufSize, minExp);
 	}
     newBuf = needHugeMem(newBufSize);
     memcpy(newBuf, faFastBuf, bufPos);
