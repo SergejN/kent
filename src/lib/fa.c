@@ -293,7 +293,7 @@ struct dnaSeq *faReadAa(char *fileName)
 return faReadSeq(fileName, FALSE);
 }
 
-static unsigned faFastBufSize = 0;
+static size_t faFastBufSize = 0;
 static DNA *faFastBuf;
 
 static void expandFaFastBuf(size_t bufPos, size_t minExp)
